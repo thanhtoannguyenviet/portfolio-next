@@ -2,11 +2,12 @@ import BaseLayout from "../../components/layouts/BaseLayout";
 import {useRouter} from "next/router";
 import axios from "axios";
 import BasePage from "../../components/BasePage";
-import useGetData from "../../actions";
+import {useGetData, useGetDataById} from "../../actions";
 
 export default function PortfolioDetail(){
     const router = useRouter()
-    const {data: portfolio,error,loading} = useGetData(router.query.id?`/api/v1/posts/${router.query.id}`:null)
+    const {data: portfolio,error,loading} =  useGetDataById(router.query.id)
+        //useGetData(router.query.id?`/api/v1/posts/${router.query.id}`:null)
     return(
         <BaseLayout>
             <BasePage>

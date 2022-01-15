@@ -3,9 +3,11 @@ import axios from "axios";
 import Link from "next/link";
 import BasePage from "../../components/BasePage";
 import {useEffect, useState} from "react";
-import useGetData from "../../actions";
+import {useGetData} from "../../actions";
+import useSWR from "swr"
+
 export default function Portfolios() {
-    const {data,error,loading} = useGetData('/api/v1/posts')
+    const {data,error,loading} = useGetData()
     const renderPosts = (posts) => {
         return posts.map(post =>
             <li key={post.id}>
