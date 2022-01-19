@@ -1,6 +1,6 @@
 import useSWR from "swr"
 
-const fetcher = (url)=> fetch(url).then(res=> {
+export const fetcher = (url)=> fetch(url).then(res=> {
     const rs = res.json()
     if (res.status!== 200){
         return Promise.reject(rs)
