@@ -7,7 +7,7 @@ const Redirect = ({toUrl,ssr}) =>{
 
     useEffect(()=>{
         if (ssr){
-            window.location.pathname = to;
+            window.location.pathname = toUrl;
         }
         else router.push(toUrl)
     },[])

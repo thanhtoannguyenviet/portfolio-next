@@ -6,7 +6,7 @@ const Onlyadmin = ({user,loading})=>{
     return (
         <BaseLayout user={user} loading={loading}>
             <BasePage>
-                <h1></h1>
+                <h1>Hello</h1>
             </BasePage>
         </BaseLayout>
     )

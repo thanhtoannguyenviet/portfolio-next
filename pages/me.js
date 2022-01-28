@@ -13,4 +13,4 @@ const Me = ({user,loading}) =>{
            </BaseLayout>
         )
 }
-export default withAuth(Me)
+export default withAuth(Me)()

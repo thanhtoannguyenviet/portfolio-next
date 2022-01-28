@@ -8,7 +8,7 @@ const roles = ["Developer", "Tech Lover", "Team leader", "React JS"]
 export default function Home() {
     const {data, err, loading} = useGetUser()
     return (
-        <BaseLayout  className="cover">
+        <BaseLayout   navClass="transparent"  className="cover">
             <div className="main-section">
                 <div className="background-image">
                     <img src="/images/background-index.png"/>

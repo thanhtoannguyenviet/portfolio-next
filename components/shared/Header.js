@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Collapse,Navbar,NavbarToggler,Nav,NavItem} from "reactstrap";
 import BsNavLink from "../BsNavLink";
 
-export default function Header({user, loading}){
+export default function Header({user, loading, className}){
     const [isOpen,setIsOpen] = useState(false)
     const toggle = () => setIsOpen(!isOpen)
     const LoginLink = () =>
@@ -12,8 +12,7 @@ export default function Header({user, loading}){
     return (
         <div>
             <Navbar
-                className="port-navbar port-default absolute"
-                color="transparent"
+                className={`port-navbar port-default absolute ${className}`}
                 dark
                 expand="md">
                 <div className="navbar-brand">
@@ -42,6 +41,12 @@ export default function Header({user, loading}){
                         </NavItem>
                         <NavItem className="port-navbar-item">
                             <BsNavLink href="/secretssr" title="SecretSSR"/>
+                        </NavItem>
+                        <NavItem className="port-navbar-item">
+                            <BsNavLink href="/onlyadmin" title="Admin"/>
+                        </NavItem>
+                        <NavItem className="port-navbar-item">
+                            <BsNavLink href="/onlyadminssr" title="AdminSsr"/>
                         </NavItem>
                     </Nav>
                     <Nav navbar>
