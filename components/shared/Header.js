@@ -2,18 +2,17 @@ import React, {useState} from "react";
 import {Collapse,Navbar,NavbarToggler,Nav,NavItem} from "reactstrap";
 import BsNavLink from "../BsNavLink";
 
-export default function Header(){
+export default function Header({user, loading, className}){
     const [isOpen,setIsOpen] = useState(false)
     const toggle = () => setIsOpen(!isOpen)
     const LoginLink = () =>
-        <span className="nav-link port-navbar-link">Login</span>
+        <BsNavLink href="/api/auth/login" title="Login" />
     const LogoutLink = () =>
-        <span className="nav-link port-navbar-link">Logout</span>
+        <BsNavLink href="/api/auth/logout" title="Logout" />
     return (
         <div>
             <Navbar
-                className="port-navbar port-default absolute"
-                color="transparent"
+                className={`port-navbar port-default absolute ${className}`}
                 dark
                 expand="md">
                 <div className="navbar-brand">
@@ -37,14 +36,33 @@ export default function Header(){
                         <NavItem className="port-navbar-item">
                             <BsNavLink href="/cv" title="Cv"/>
                         </NavItem>
+                        <NavItem className="port-navbar-item">
+                            <BsNavLink href="/me" title="Me"/>
+                        </NavItem>
+                        <NavItem className="port-navbar-item">
+                            <BsNavLink href="/secretssr" title="SecretSSR"/>
+                        </NavItem>
+                        <NavItem className="port-navbar-item">
+                            <BsNavLink href="/onlyadmin" title="Admin"/>
+                        </NavItem>
+                        <NavItem className="port-navbar-item">
+                            <BsNavLink href="/onlyadminssr" title="AdminSsr"/>
+                        </NavItem>
                     </Nav>
                     <Nav navbar>
-                        <NavItem className="port-navbar-item">
-                            <LoginLink/>
-                        </NavItem>
-                        <NavItem className="port-navbar-item">
-                            <LogoutLink/>
-                        </NavItem>
+                        {!loading &&
+                        <>
+                            {user &&
+                            <NavItem className="port-navbar-item">
+                                <LogoutLink/>
+                            </NavItem>
+                            }
+                            {!user &&
+                            <NavItem className="port-navbar-item">
+                                <LoginLink/>
+                            </NavItem>
+                            }
+                        </>}
                     </Nav>
                 </Collapse>
             </Navbar>

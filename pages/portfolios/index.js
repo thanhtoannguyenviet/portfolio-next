@@ -4,45 +4,42 @@ import Link from "next/link";
 import BasePage from "../../components/BasePage";
 import {useEffect, useState} from "react";
 import {useGetData} from "../../actions";
-import useSWR from "swr"
+import PortfoliosApi from "../../lib/api/portfolios";
+import PortfolioCard from "../../components/PortfolioCard";
+import {Col, Row} from "react-bootstrap";
+import {useRouter} from "next/router";
 
-export default function Portfolios() {
-    const {data,error,loading} = useGetData()
-    const renderPosts = (posts) => {
-        return posts.map(post =>
-            <li key={post.id}>
-                <Link href={`/portfolios/${post.id}`}>
-                    <a>{post.title}</a>
-                </Link>
-
-            </li>)
-    }
-
+export default function Portfolios({portfolios}) {
+    const {data, error, loading} = useGetData()
+    const router = useRouter()
     return (
         <BaseLayout>
-
-            <BasePage>
-            <h1>Hi, Im Portfolios</h1>
+            <BasePage header="Portfolio" className="portfolio-page">
                 {loading && <p>Loading ...</p>}
-            { data &&
-                <ul>{renderPosts(data)}</ul>
-            }
-            { error &&
+
+                <Row>
+                    {portfolios.map(post =>
+                        <Col key={post._id} md="4" onClick={()=>{
+                            router.push('portfolios/[id]',`portfolios/${post._id}`)
+                        }}>
+                            <PortfolioCard portfolio={post}/>
+                        </Col>
+                    )
+                    }
+                </Row>
+                {error &&
                 <div className="alert alert-danger}">{error.message}</div>
 
-            }
+                }
             </BasePage>
         </BaseLayout>
     )
 }
 
-// Portfolios.getInitialProps = async () =>{
-//     let posts = []
-//     try {
-//         const res = await axios.get("https://jsonplaceholder.typicode.com/posts")
-//         posts = res.data
-//     }catch (e){
-//         console.log(e.message)
-//     }
-//     return {posts: posts.slice(0,10)}
-// }
+export async function getStaticProps() {
+    const rs = await new PortfoliosApi().getAll()
+    const portfolios = rs.data
+    return {
+        props: {portfolios}
+    }
+}
