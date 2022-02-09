@@ -6,7 +6,7 @@ import Redirect from "../components/shared/Redirect";
 import withAuth from "../hoc/withAuth";
 const Me = ({user,loading}) =>{
         return (
-           <BaseLayout user={user} loading={loading}>
+           <BaseLayout user={user} loading={false}>
               <BasePage>
                 <h1>Hello {user?.name}</h1>
               </BasePage>

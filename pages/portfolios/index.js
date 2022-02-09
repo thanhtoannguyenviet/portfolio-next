@@ -6,11 +6,12 @@ import {useEffect, useState} from "react";
 import {useGetData} from "../../actions";
 import PortfoliosApi from "../../lib/api/portfolios";
 import PortfolioCard from "../../components/PortfolioCard";
-import {Col, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {useRouter} from "next/router";
+import {useGetUser} from "../../actions/user";
 
 export default function Portfolios({portfolios}) {
-    const {data, error, loading} = useGetData()
+    const { data: dataU, loading } = useGetUser();
     const router = useRouter()
     return (
         <BaseLayout>
@@ -22,15 +23,21 @@ export default function Portfolios({portfolios}) {
                         <Col key={post._id} md="4" onClick={()=>{
                             router.push('portfolios/[id]',`portfolios/${post._id}`)
                         }}>
-                            <PortfolioCard portfolio={post}/>
+                            <PortfolioCard portfolio={post}>
+                                {dataU &&<>
+                                    <Button variant="warning" className="mr-2"
+                                        onClick={(e)=>{
+                                            e.stopPropagation()
+                                            router.push('/portfolios/[id]/edit', `/portfolios/${post._id}/edit`)
+                                        }}
+                                    >Edit</Button>
+                                    <Button variant="danger">Delete</Button>
+                                </>}
+                            </PortfolioCard>
                         </Col>
                     )
                     }
                 </Row>
-                {error &&
-                <div className="alert alert-danger}">{error.message}</div>
-
-                }
             </BasePage>
         </BaseLayout>
     )
