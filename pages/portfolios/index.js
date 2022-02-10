@@ -9,10 +9,22 @@ import PortfolioCard from "../../components/PortfolioCard";
 import {Button, Col, Row} from "react-bootstrap";
 import {useRouter} from "next/router";
 import {useGetUser} from "../../actions/user";
+import {useDeletePortfolios} from "../../actions/portfolios";
 
-export default function Portfolios({portfolios}) {
+export default function Portfolios({portfolios: initialPortfolios}) {
     const { data: dataU, loading } = useGetUser();
+    const [deletePortfolio,{data,error}] = useDeletePortfolios()
     const router = useRouter()
+    const [portfolios,setPortfolios] = useState(initialPortfolios)
+    const _deletePortfolio = async (e,portfolioId) => {
+        e.stopPropagation()
+        const isConfirm = confirm('Are you sure you want to delete this portfolio')
+        if(isConfirm){
+            await deletePortfolio(portfolioId)
+            setPortfolios(portfolios.filter((portfolio)=> portfolio._id !== portfolioId))
+        }
+
+    }
     return (
         <BaseLayout>
             <BasePage header="Portfolio" className="portfolio-page">
@@ -20,9 +32,9 @@ export default function Portfolios({portfolios}) {
 
                 <Row>
                     {portfolios.map(post =>
-                        <Col key={post._id} md="4" onClick={()=>{
-                            router.push('portfolios/[id]',`portfolios/${post._id}`)
-                        }}>
+                        <Col key={post._id} md="4"
+                             onClick={()=>{router.push('portfolios/[id]',`portfolios/${post._id}`)}}
+                        >
                             <PortfolioCard portfolio={post}>
                                 {dataU &&<>
                                     <Button variant="warning" className="mr-2"
@@ -31,7 +43,9 @@ export default function Portfolios({portfolios}) {
                                             router.push('/portfolios/[id]/edit', `/portfolios/${post._id}/edit`)
                                         }}
                                     >Edit</Button>
-                                    <Button variant="danger">Delete</Button>
+                                    <Button variant="danger"
+                                        onClick={(e)=>_deletePortfolio(e,post._id)}
+                                    >Delete</Button>
                                 </>}
                             </PortfolioCard>
                         </Col>
