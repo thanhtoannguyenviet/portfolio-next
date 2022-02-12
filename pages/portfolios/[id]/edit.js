@@ -1,10 +1,6 @@
 import BaseLayout from "../../../components/layouts/BaseLayout";
 import {useRouter} from "next/router";
-import axios from "axios";
 import BasePage from "../../../components/BasePage";
-import {useGetData, useGetDataById} from "../../../actions";
-import PortfoliosApi from "../../../lib/api/portfolios";
-import withAuth from "../../../hoc/withAuth";
 import PortfolioForm from "../../../components/PortfolioForm";
 import {Row, Col} from "react-bootstrap";
 import {useGetPortfolios, useUpdatePortfolios} from "../../../actions/portfolios";
